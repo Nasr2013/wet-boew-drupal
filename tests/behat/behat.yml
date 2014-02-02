@@ -1,6 +1,7 @@
 default:
   paths:
     features: 'features'
+    bootstrap: 'features/bootstrap'
   extensions:
     Behat\MinkExtension\Extension:
       base_url:  'http://127.0.0.1:8080'
@@ -12,5 +13,10 @@ default:
       blackbox: ~
       drush:
         alias: self
+      region_map:
+        Breadcrumb: ".breadcrumb ol"
+        Content Well: "#wb-main-in"
+        Left Sidebar: "#wb-sec-in"
+        Mega Menu: ".mb-menu"
 imports:
   - behat.local.yml

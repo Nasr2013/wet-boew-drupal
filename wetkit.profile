@@ -18,10 +18,8 @@ function wetkit_install_tasks(&$install_state) {
   // Hide some messages from various modules that are just too chatty.
   drupal_get_messages('status');
   drupal_get_messages('warning');
-  drupal_get_messages('error');
 
   $tasks = array();
-  $current_task = variable_get('install_task', 'done');
 
   // Add the WetKit theme selection to the installation process.
   require_once drupal_get_path('module', 'wetkit_theme') . '/wetkit_theme.profile.inc';
@@ -34,21 +32,19 @@ function wetkit_install_tasks(&$install_state) {
   );
 
   $tasks['wetkit_import_content'] = array(
-    'display_name' => st('Import required content'),
+    'display_name' => st('Import Required Content'),
     'type' => 'batch',
-    // Show this task only after the WetKit steps have been reached.
-    'display' => strpos($current_task, 'wetkit_') !== FALSE,
+    'display' => TRUE,
   );
 
-  $tasks['wetkit_import_demo_content'] = array(
-    'display_name' => st('Import demo content'),
-    'type' => 'batch',
-    // Show this task only after the WetKit steps have bene reached.
-    'display' => strpos($current_task, 'wetkit_') !== FALSE,
-    'run' => isset($install_state['parameters']['demo_content']) ?
-      $install_state['parameters']['demo_content'] == 1 ? INSTALL_TASK_RUN_IF_NOT_COMPLETED : INSTALL_TASK_SKIP
-      : INSTALL_TASK_SKIP,
-  );
+  if (isset($install_state['parameters']['demo_content'])) {
+    $tasks['wetkit_import_demo_content'] = array(
+      'display_name' => st('Import Demo Content'),
+      'type' => 'batch',
+      'display' => $install_state['parameters']['demo_content'] == 1,
+      'run' => $install_state['parameters']['demo_content'] == 1 ? INSTALL_TASK_RUN_IF_NOT_COMPLETED : INSTALL_TASK_SKIP,
+    );
+  }
 
   return $tasks;
 }
@@ -63,7 +59,6 @@ function wetkit_install_tasks_alter(&$tasks, $install_state) {
   // Hide some messages from various modules that are just too chatty.
   drupal_get_messages('status');
   drupal_get_messages('warning');
-  drupal_get_messages('error');
 
   // The "Welcome" screen needs to come after the first two steps
   // (profile and language selection), despite the fact that they are disabled.
@@ -147,7 +142,6 @@ function wetkit_form_install_configure_form_alter(&$form, $form_state) {
   // Hide some messages from various modules that are just too chatty.
   drupal_get_messages('status');
   drupal_get_messages('warning');
-  drupal_get_messages('error');
 
   // Set reasonable defaults for site configuration form.
   $form['site_information']['site_name']['#default_value'] = 'Web Experience Toolkit';
@@ -161,10 +155,16 @@ function wetkit_form_install_configure_form_alter(&$form, $form_state) {
     $form['admin_account']['account']['mail']['#default_value'] = 'admin@' . $_SERVER['HTTP_HOST'];
   }
 
-  $form['demo_content'] = array(
-    '#title' => st('Import demo content'),
+  $form['wetkit_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('WXT Settings'),
+  );
+
+  $form['wetkit_settings']['demo_content'] = array(
+    '#title' => st('Import Demo Content'),
     '#description' => st('Whether demo content should imported.'),
     '#type' => 'checkbox',
+    '#default_value' => drupal_is_cli() ? FALSE : TRUE,
   );
   array_push($form['#submit'], 'wetkit_import_demo_content_form_submit');
 }
@@ -205,6 +205,11 @@ function wetkit_import_content() {
     t('Fix Page Manager dependency chain issue.'),
     ));
 
+  // Permissions Fix.
+  $operations[] = array('_wetkit_permissions_fix', array(
+    t('Fix Permissions for Administrator Role.'),
+    ));
+
   $batch = array(
     'title' => t('Importing content'),
     'operations' => $operations,
@@ -241,7 +246,13 @@ function wetkit_import_demo_content() {
     t('Importing content.'),
     ));
 
-  // Run Default_content migration.
+  // Run Default Content Media migration.
+  $operations[] = array('_wetkit_import', array(
+    'WetKitMigrateDefaultContentMedia',
+    t('Importing media.'),
+    ));
+
+  // Run Default Content migration.
   $operations[] = array('_wetkit_import', array(
     'WetKitMigrateDefaultContent',
     t('Importing content.'),
@@ -278,7 +289,6 @@ function wetkit_form_apps_profile_apps_select_form_alter(&$form, $form_state) {
   // Hide some messages from various modules.
   drupal_get_messages('status');
   drupal_get_messages('warning');
-  drupal_get_messages('error');
 
   // For some things there are no need.
   $form['apps_message']['#access'] = FALSE;

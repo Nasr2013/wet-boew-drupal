@@ -1,6 +1,6 @@
-<img alt="Banner" src="http://dl.dropbox.com/u/38413195/banner.jpeg" title="By Y Anderson (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0">
+<img alt="Banner" src="http://dl.dropbox.com/u/38413195/banner.jpeg" title="By Y Anderson (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0" class="img-responsive">
 
-# Web Experience Toolkit: Drupal WEM
+# Web Experience Toolkit: Drupal WxT
 
 [![Build Status][travisci-badge]][travisci]
 [![Selenium Test Status][selenium-badge]][selenium]
@@ -18,7 +18,7 @@
 
 ## Overview
 
-The WxT-Drupal distribution is a web content management system which assists in building and maintaining innovative Web sites that are accessible, usable, and interoperable. This distribution is open source software and free for use by departments and external Web communities. This distribution relies and integrates extensively on the [WET-BOEW jQuery Framework][wet-boew] to leverage much of the rendering and overall markup.
+The Drupal WxT distribution is a web content management system which assists in building and maintaining innovative Web sites that are accessible, usable, and interoperable. This distribution is open source software and free for use by departments and external Web communities. This distribution relies and integrates extensively on the [WET-BOEW jQuery Framework][wet-boew] to leverage much of the rendering and overall markup.
 
 Development has been tailored for organizations that need to comply with standards for accessibility and bilingualism or that simply need a distribution that allows them to get up and running quickly using a carefully curated selection of modules that can support common enterprise business requirements.
 
@@ -64,7 +64,7 @@ specific language governing permissions and limitations under the License.
 [coderwall]:            http://coderwall.com/sylus
 [coderwall-badge]:      http://api.coderwall.com/sylus/endorsecount.png
 [docsite]:              http://wiki.drupalwxt.org
-[docsite-drush-make]:   http://wiki.drupalwxt.org/concepts/drush-make
+[docsite-drush-make]:   http://wiki.drupalwxt.org/architecture/drush-make
 [drupal]:               http://drupal.org/project/wetkit
 [github]:               https://github.com/wet-boew/wet-boew-drupal
 [issue-drupal]:         https://drupal.org/project/issues/wetkit
@@ -76,7 +76,7 @@ specific language governing permissions and limitations under the License.
 [selenium-badge]:       https://saucelabs.com/buildstatus/sylus
 [simplytest]:           http://simplytest.me/project/wetkit/7.x-1.x
 [travisci]:             https://travis-ci.org/wet-boew/wet-boew-drupal
-[travisci-badge]:       https://secure.travis-ci.org/wet-boew/wet-boew-drupal.png?branch=7.x-1.x
+[travisci-badge]:       https://travis-ci.org/wet-boew/wet-boew-drupal.png?branch=7.x-1.x
 [vagrant-normandy]:     https://github.com/sylus/vagrant-normandy
 [wet-boew]:             https://github.com/wet-boew/wet-boew
 [youtube]:              http://www.youtube.com/playlist?list=PLjIClrDa-_ZFwO-0sT_y6PGljSdbYztwi
